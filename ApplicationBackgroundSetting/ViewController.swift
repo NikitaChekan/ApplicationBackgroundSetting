@@ -8,10 +8,11 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet var backgroundView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        backgroundView.layer.cornerRadius = 20
     }
 
 
