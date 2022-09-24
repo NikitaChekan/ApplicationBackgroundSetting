@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  ApplicationBackgroundSetting
 //
-//  Created by jopootrivatel on 23.09.2022.
+//  Created by Nikita Chekan on 23.09.2022.
 //
 
 import UIKit
@@ -22,30 +22,37 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.layer.cornerRadius = 20
         
-        setupAllSliders()
+        backgroundView.layer.cornerRadius = 20
+    
+        transmitAndFormatValuesInLabel()
+        setTheRGBforView()
     }
     
     // MARK: IBActions
     @IBAction func redSliderAction() {
-        setupAllSliders()
+        transmitAndFormatValuesInLabel()
+        setTheRGBforView()
     }
     
     @IBAction func greenSliderAction() {
-        setupAllSliders()
+        transmitAndFormatValuesInLabel()
+        setTheRGBforView()
     }
     
     @IBAction func blueSliderAction() {
-        setupAllSliders()
+        transmitAndFormatValuesInLabel()
+        setTheRGBforView()
     }
     
     // MARK: Private Methonds
-    private func setupAllSliders() {
+    private func transmitAndFormatValuesInLabel() {
         redLabel.text = String(format: "%.2f", redSlider.value)
         greenLabel.text = String(format: "%.2f", greenSlider.value)
         blueLabel.text = String(format: "%.2f", blueSlider.value)
-        
+    }
+    
+    private func setTheRGBforView() {
         backgroundView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
