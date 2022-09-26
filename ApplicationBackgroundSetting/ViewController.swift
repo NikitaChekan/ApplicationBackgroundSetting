@@ -30,33 +30,35 @@ class ViewController: UIViewController {
     }
     
     // MARK: IBActions
-    @IBAction func redSliderAction() {
-        transmitAndFormatValuesInLabel()
+    @IBAction func slidersAction(_ sender: UISlider) {
         setTheRGBforView()
-    }
-    
-    @IBAction func greenSliderAction() {
-        transmitAndFormatValuesInLabel()
-        setTheRGBforView()
-    }
-    
-    @IBAction func blueSliderAction() {
-        transmitAndFormatValuesInLabel()
-        setTheRGBforView()
+        
+        switch sender {
+        case redSlider, greenSlider:
+            transmitAndFormatValuesInLabel()
+        default:
+            transmitAndFormatValuesInLabel()
+        }
     }
     
     // MARK: Private Methonds
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+    
     private func transmitAndFormatValuesInLabel() {
-        redLabel.text = String(format: "%.2f", redSlider.value)
-        greenLabel.text = String(format: "%.2f", greenSlider.value)
-        blueLabel.text = String(format: "%.2f", blueSlider.value)
+        redLabel.text = string(from: redSlider)
+        greenLabel.text = string(from: greenSlider)
+        blueLabel.text = string(from: blueSlider)
     }
     
     private func setTheRGBforView() {
         backgroundView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
-            blue: CGFloat(blueSlider.value), alpha: CGFloat.infinity)
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
     }
 }
 
