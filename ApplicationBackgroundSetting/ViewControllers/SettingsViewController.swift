@@ -28,7 +28,6 @@ class SettingsViewController: UIViewController {
         backgroundView.backgroundColor = color
         backgroundView.layer.cornerRadius = 20
     
-        transmitAndFormatValuesInLabel()
         transferTheColorBack()
     }
     
@@ -56,12 +55,6 @@ class SettingsViewController: UIViewController {
         String(format: "%.2f", slider.value)
     }
     
-    private func transmitAndFormatValuesInLabel() {
-        redLabel.text = string(from: redSlider)
-        greenLabel.text = string(from: greenSlider)
-        blueLabel.text = string(from: blueSlider)
-    }
-    
 }
 
 // MARK: - UIColorDelegate
@@ -80,14 +73,14 @@ extension SettingsViewController {
     }
     
     private func transferTheColorBack() {
-            let  color = CIColor(color: color)
-            
-            redSlider.value = Float(color.red)
-            greenSlider.value = Float(color.green)
-            blueSlider.value = Float(color.blue)
-            
-            // redColorLabel.text = "\(String(format: "%.2f", color.red))"
-            // greenColorLabel.text = "\(String(format: "%.2f", color.green))"
-            // blueColorLabel.text = "\(String(format: "%.2f", color.blue))"
-        }
+        let  color = CIColor(color: color)
+        
+        redSlider.value = Float(color.red)
+        greenSlider.value = Float(color.green)
+        blueSlider.value = Float(color.blue)
+        
+        redLabel.text = "\(String(format: "%.2f", color.red))"
+        greenLabel.text = "\(String(format: "%.2f", color.green))"
+        blueLabel.text = "\(String(format: "%.2f", color.blue))"
     }
+}
