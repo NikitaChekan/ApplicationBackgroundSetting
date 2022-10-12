@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SettingsViewController: UIViewController {
     
     // MARK: IBOutlets
     @IBOutlet var backgroundView: UIView!
@@ -20,9 +20,11 @@ class ViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
+    var color: UIColor!
+    var delegate: SettingsViewControllerDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         backgroundView.layer.cornerRadius = 20
     
         transmitAndFormatValuesInLabel()
@@ -34,11 +36,20 @@ class ViewController: UIViewController {
         setTheRGBforView()
         
         switch sender {
-        case redSlider, greenSlider:
-            transmitAndFormatValuesInLabel()
+        case redSlider:
+            redLabel.text = string(from: redSlider)
+        case greenSlider:
+            greenLabel.text = string(from: greenSlider)
         default:
-            transmitAndFormatValuesInLabel()
+            blueLabel.text = string(from: blueSlider)
         }
+    }
+    
+    @IBAction func doneButtonTapped() {
+        changeBackgroundColor()
+        //passedValueFromColor()
+        delegate.setNewValue(for: color)
+        dismiss(animated: true)
     }
     
     // MARK: Private Methonds
@@ -53,12 +64,35 @@ class ViewController: UIViewController {
     }
     
     private func setTheRGBforView() {
-        backgroundView.backgroundColor = UIColor(
+//        backgroundView.backgroundColor = UIColor(
+//            red: CGFloat(redSlider.value),
+//            green: CGFloat(greenSlider.value),
+//            blue: CGFloat(blueSlider.value),
+//            alpha: 1
+//        )
+        changeBackgroundColor()
+    }
+}
+
+// MARK: - UIColorDelegate
+extension SettingsViewController {
+    func changeBackgroundColor() {
+        
+        color = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
             blue: CGFloat(blueSlider.value),
             alpha: 1
         )
+        
+        backgroundView.backgroundColor = color
     }
+    
+//    func passedValueFromColor() {
+//        let color = CIColor(color: color)
+//
+//        redSlider.value = Float(color.red)
+//        greenSlider.value = Float(color.green)
+//        blueSlider.value = Float(color.blue)
+//    }
 }
-

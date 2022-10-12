@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  ApplicationBackgroundSetting
 //
-//  Created by jopootrivatel on 23.09.2022.
+//  Created by Nikita Chekan on 23.09.2022.
 //
 
 import UIKit
