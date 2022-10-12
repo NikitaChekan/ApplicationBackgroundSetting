@@ -20,15 +20,23 @@ class SettingsViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
+    
     var color: UIColor!
     var delegate: SettingsViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundView.backgroundColor = color
-        backgroundView.layer.cornerRadius = 20
     
         transferTheColorBack()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     // MARK: IBActions
@@ -38,10 +46,13 @@ class SettingsViewController: UIViewController {
         switch sender {
         case redSlider:
             redLabel.text = string(from: redSlider)
+            redTextField.text = string(from: redSlider)
         case greenSlider:
             greenLabel.text = string(from: greenSlider)
+            greenTextField.text = string(from: greenSlider)
         default:
             blueLabel.text = string(from: blueSlider)
+            blueTextField.text = string(from: blueSlider)
         }
     }
     
@@ -57,30 +68,32 @@ class SettingsViewController: UIViewController {
     
 }
 
-// MARK: - UIColorDelegate
+// MARK: - Color Delegate
 extension SettingsViewController {
-    
     func changeBackgroundColor() {
-        
         color = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
             blue: CGFloat(blueSlider.value),
             alpha: 1
         )
-        
         backgroundView.backgroundColor = color
     }
     
     private func transferTheColorBack() {
-        let  color = CIColor(color: color)
+        let color = CIColor(color: color)
         
         redSlider.value = Float(color.red)
         greenSlider.value = Float(color.green)
         blueSlider.value = Float(color.blue)
         
-        redLabel.text = "\(String(format: "%.2f", color.red))"
-        greenLabel.text = "\(String(format: "%.2f", color.green))"
-        blueLabel.text = "\(String(format: "%.2f", color.blue))"
+        redLabel.text = (String(format: "%.2f", color.red))
+        greenLabel.text = (String(format: "%.2f", color.green))
+        blueLabel.text = (String(format: "%.2f", color.blue))
+        
+        redTextField.text = (String(format: "%.2f", color.red))
+        greenTextField.text = (String(format: "%.2f", color.green))
+        blueTextField.text = (String(format: "%.2f", color.blue))
+        
     }
 }
