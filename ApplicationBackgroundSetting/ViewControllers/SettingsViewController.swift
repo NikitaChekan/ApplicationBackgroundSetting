@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     @IBOutlet var backgroundView: UIView!
     
     @IBOutlet var redLabel: UILabel!
@@ -30,8 +30,12 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundView.backgroundColor = color
+        
+        redTextField.delegate = self
+        greenTextField.delegate = self
+        blueTextField.delegate = self
     
-        transferTheColorBack()
+        changeColor()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -39,7 +43,7 @@ class SettingsViewController: UIViewController {
         view.endEditing(true)
     }
     
-    // MARK: IBActions
+    // MARK: - IBActions
     @IBAction func slidersAction(_ sender: UISlider) {
         changeBackgroundColor()
         
@@ -80,7 +84,7 @@ extension SettingsViewController {
         backgroundView.backgroundColor = color
     }
     
-    private func transferTheColorBack() {
+    private func changeColor() {
         let color = CIColor(color: color)
         
         redSlider.value = Float(color.red)
@@ -95,5 +99,22 @@ extension SettingsViewController {
         greenTextField.text = (String(format: "%.2f", color.green))
         blueTextField.text = (String(format: "%.2f", color.blue))
         
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension SettingsViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let value = textField.text else { return }
+        
+        switch textField {
+        case redTextField:
+            redSlider.setValue(Float(value) ?? redSlider.value, animated: true)
+        case greenTextField:
+            greenSlider.setValue(Float(value) ?? greenSlider.value, animated: true)
+        default:
+            blueSlider.setValue(Float(value) ?? blueSlider.value, animated: true)
+        }
+        changeBackgroundColor()
     }
 }
