@@ -30,12 +30,11 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundView.backgroundColor = color
+        changeColor()
         
         redTextField.delegate = self
         greenTextField.delegate = self
         blueTextField.delegate = self
-    
-        changeColor()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -70,6 +69,13 @@ class SettingsViewController: UIViewController {
         String(format: "%.2f", slider.value)
     }
     
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okeyAction = UIAlertAction(title: "OK", style: .default)
+        
+        alert.addAction(okeyAction)
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - Color Delegate
@@ -107,14 +113,21 @@ extension SettingsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let value = textField.text else { return }
         
-        switch textField {
-        case redTextField:
-            redSlider.setValue(Float(value) ?? redSlider.value, animated: true)
-        case greenTextField:
-            greenSlider.setValue(Float(value) ?? greenSlider.value, animated: true)
-        default:
-            blueSlider.setValue(Float(value) ?? blueSlider.value, animated: true)
+        if Float(value) ?? 0 < 0 || Float(value) ?? 0 > 1 {
+            showAlert(
+                title: "Fatal error!",
+                message: "Please, enter correct value (0 - 1)"
+            )
+        } else {
+            switch textField {
+            case redTextField:
+                redSlider.setValue(Float(value) ?? redSlider.value, animated: true)
+            case greenTextField:
+                greenSlider.setValue(Float(value) ?? greenSlider.value, animated: true)
+            default:
+                blueSlider.setValue(Float(value) ?? blueSlider.value, animated: true)
+            }
+            changeBackgroundColor()
         }
-        changeBackgroundColor()
     }
 }

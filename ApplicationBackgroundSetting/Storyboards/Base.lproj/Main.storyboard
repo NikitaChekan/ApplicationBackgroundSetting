@@ -29,7 +29,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="slU-wL-zd6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="148" y="-2"/>
+            <point key="canvasLocation" x="147.82608695652175" y="-2.0089285714285712"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -182,6 +182,7 @@
                             <constraint firstAttribute="trailing" secondItem="dWT-Ky-ReV" secondAttribute="trailing" constant="16" id="ymR-VH-Pzu"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="backgroundView" destination="DEk-x2-T92" id="Dgc-L1-hsK"/>
                         <outlet property="blueLabel" destination="u2J-U4-dnq" id="glf-Mn-9JH"/>
