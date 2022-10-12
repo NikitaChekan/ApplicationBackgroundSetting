@@ -25,15 +25,16 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundView.backgroundColor = color
         backgroundView.layer.cornerRadius = 20
     
         transmitAndFormatValuesInLabel()
-        setTheRGBforView()
+        transferTheColorBack()
     }
     
     // MARK: IBActions
     @IBAction func slidersAction(_ sender: UISlider) {
-        setTheRGBforView()
+        changeBackgroundColor()
         
         switch sender {
         case redSlider:
@@ -46,8 +47,6 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func doneButtonTapped() {
-        changeBackgroundColor()
-        //passedValueFromColor()
         delegate.setNewValue(for: color)
         dismiss(animated: true)
     }
@@ -63,19 +62,11 @@ class SettingsViewController: UIViewController {
         blueLabel.text = string(from: blueSlider)
     }
     
-    private func setTheRGBforView() {
-//        backgroundView.backgroundColor = UIColor(
-//            red: CGFloat(redSlider.value),
-//            green: CGFloat(greenSlider.value),
-//            blue: CGFloat(blueSlider.value),
-//            alpha: 1
-//        )
-        changeBackgroundColor()
-    }
 }
 
 // MARK: - UIColorDelegate
 extension SettingsViewController {
+    
     func changeBackgroundColor() {
         
         color = UIColor(
@@ -88,11 +79,15 @@ extension SettingsViewController {
         backgroundView.backgroundColor = color
     }
     
-//    func passedValueFromColor() {
-//        let color = CIColor(color: color)
-//
-//        redSlider.value = Float(color.red)
-//        greenSlider.value = Float(color.green)
-//        blueSlider.value = Float(color.blue)
-//    }
-}
+    private func transferTheColorBack() {
+            let  color = CIColor(color: color)
+            
+            redSlider.value = Float(color.red)
+            greenSlider.value = Float(color.green)
+            blueSlider.value = Float(color.blue)
+            
+            // redColorLabel.text = "\(String(format: "%.2f", color.red))"
+            // greenColorLabel.text = "\(String(format: "%.2f", color.green))"
+            // blueColorLabel.text = "\(String(format: "%.2f", color.blue))"
+        }
+    }
