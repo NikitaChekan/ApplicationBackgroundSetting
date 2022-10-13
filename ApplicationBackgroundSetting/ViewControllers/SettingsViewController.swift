@@ -24,9 +24,11 @@ class SettingsViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
-    var color: UIColor!
+    // MARK: - Public Properties
     var delegate: SettingsViewControllerDelegate!
+    var color: UIColor!
     
+    // MARK: - View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundView.backgroundColor = color
@@ -63,23 +65,26 @@ class SettingsViewController: UIViewController {
         delegate.setNewValue(for: color)
         dismiss(animated: true)
     }
+}
+
+// MARK: Private Methonds
+extension SettingsViewController {
     
-    // MARK: Private Methonds
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
     
-    private func showAlert(title: String, message: String) {
+    private func showAlert(title: String, message: String, textField: UITextField? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okeyAction = UIAlertAction(title: "OK", style: .default)
+        let okeyAction = UIAlertAction(title: "OK", style: .default) {_ in
+            textField?.text = "1.00"
+            textField?.becomeFirstResponder()
+        }
         
         alert.addAction(okeyAction)
         present(alert, animated: true)
     }
-}
-
-// MARK: - Color Delegate
-extension SettingsViewController {
+    
     func changeBackgroundColor() {
         color = UIColor(
             red: CGFloat(redSlider.value),
@@ -116,7 +121,8 @@ extension SettingsViewController: UITextFieldDelegate {
         if Float(value) ?? 0 < 0 || Float(value) ?? 0 > 1 {
             showAlert(
                 title: "Fatal error!",
-                message: "Please, enter correct value (0 - 1)"
+                message: "Please, enter correct value (0 - 1)",
+                textField: textField
             )
         } else {
             switch textField {
@@ -129,5 +135,26 @@ extension SettingsViewController: UITextFieldDelegate {
             }
             changeBackgroundColor()
         }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let keyboardToolBar = UIToolbar()
+        keyboardToolBar.sizeToFit()
+        
+        textField.inputAccessoryView = keyboardToolBar
+
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: textField,
+            action: #selector(resignFirstResponder)
+        )
+
+        let flexBarButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+
+        keyboardToolBar.items = [flexBarButton, doneButton]
     }
 }
