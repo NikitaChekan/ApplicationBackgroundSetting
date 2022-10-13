@@ -116,25 +116,26 @@ extension SettingsViewController {
 // MARK: - UITextFieldDelegate
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let value = textField.text else { return }
+        guard let text = textField.text else { return }
         
-        if Float(value) ?? 0 < 0 || Float(value) ?? 0 > 1 {
+        guard let currentValue = Float(text), (0...1).contains(currentValue) else {
             showAlert(
                 title: "Fatal error!",
                 message: "Please, enter correct value (0 - 1)",
                 textField: textField
             )
-        } else {
-            switch textField {
-            case redTextField:
-                redSlider.setValue(Float(value) ?? redSlider.value, animated: true)
-            case greenTextField:
-                greenSlider.setValue(Float(value) ?? greenSlider.value, animated: true)
-            default:
-                blueSlider.setValue(Float(value) ?? blueSlider.value, animated: true)
-            }
-            changeBackgroundColor()
+            return
         }
+        
+        switch textField {
+        case redTextField:
+            redSlider.setValue(Float(text) ?? redSlider.value, animated: true)
+        case greenTextField:
+            greenSlider.setValue(Float(text) ?? greenSlider.value, animated: true)
+        default:
+            blueSlider.setValue(Float(text) ?? blueSlider.value, animated: true)
+        }
+        changeBackgroundColor()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
